@@ -9,8 +9,8 @@ class StudentDB {
     private String [] fields; 
 
     public StudentDB(String cvsFile, String key, String val)  { 
-	FileReader fileRd=null; 
-	BufferedReader reader=null; 
+	FileReader fileRd = null;
+	BufferedReader reader = null;
 
 	try { 
 	    fileRd = new FileReader(cvsFile); 
