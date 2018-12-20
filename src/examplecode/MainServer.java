@@ -28,6 +28,19 @@ public class MainServer {
         }
     }
 
+    public void server_loop() {
+        try {
+            Socket socket;
+            while (true) {
+                socket = this.serverSocket.accept();
+                ConnectionServer worker = new ConnectionServer(this);
+                worker.handleConnection(socket);
+            }
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+
     /* each server will provide the following functions to
      * the public. Note that these are non-static
      */
@@ -52,18 +65,6 @@ public class MainServer {
     public String authorizedOnce(String a) {
         // need to implement this.
         return null;
-    }
-
-    public void server_loop() {
-        try {
-            while (true) {
-                Socket socket = this.serverSocket.accept();
-                ConnectionServer worker = new ConnectionServer(this);
-                worker.handleConnection(socket);
-            }
-        } catch (IOException e) {
-            System.out.println(e);
-        }
     }
 }
 

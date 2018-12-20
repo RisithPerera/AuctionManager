@@ -3,21 +3,20 @@ package examplecode;
 import java.util.*;
 
 class VisualServer extends MainServer { 
-    private static LinkedList<String> msgs; 
+    private static String msgs;
 
     public VisualServer(int socket, StudentDB user) { 
         super(socket, user);
-        msgs = new LinkedList<String>();
     }
 
     @Override 
     public synchronized void postMSG(String str) { 
         // I can override and make function synchronized
-        msgs.add(str);
+        msgs = str;
     }
 
-    public String getMSG() { 
-	if(!msgs.isEmpty()) return msgs.remove(); 	    
+    public String getMSG() {
+	if(!msgs.isEmpty()) return msgs;
 	    return null;
     }
 }

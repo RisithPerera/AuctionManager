@@ -35,20 +35,17 @@ public class Display extends JPanel implements ActionListener {
 
         Timer timer = new Timer(500, this);
         timer.start();
-
         this.server = server;
     }
 
     public void actionPerformed(ActionEvent e) {
         String newline = server.getMSG();
-        if (newline != null) {
+        if (newline != null){
             textArea.append(newline + "\n");
-
             //Make sure the new text is visible, even if there
             //was a selection in the text area.
             textArea.setCaretPosition(textArea.getDocument().getLength());
         }
-
     }
 
     public static void main(String[] args) throws IOException {

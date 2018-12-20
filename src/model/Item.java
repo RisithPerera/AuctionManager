@@ -32,4 +32,9 @@ public class Item {
     public ArrayList<Bid> getBidList() {
         return bidList;
     }
+
+    @Override
+    public String toString() {
+        return finalPrice+" : "+securityName;
+    }
 }
