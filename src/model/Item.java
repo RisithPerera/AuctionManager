@@ -3,24 +3,14 @@ package model;
 import java.util.ArrayList;
 
 public class Item {
-    private String symbol;
     private String securityName;
-    private double price;
+    private double finalPrice;
     private ArrayList<Bid> bidList;
 
-    public Item(String symbol, String securityName, double price) {
-        this.symbol = symbol;
+    public Item(String securityName, double finalPrice) {
         this.securityName = securityName;
-        this.price = price;
+        this.finalPrice = finalPrice;
         this.bidList = new ArrayList<>();
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
     }
 
     public String getSecurityName() {
@@ -31,12 +21,12 @@ public class Item {
         this.securityName = securityName;
     }
 
-    public double getPrice() {
-        return price;
+    public double getFinalPrice() {
+        return finalPrice;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setFinalPrice(double finalPrice) {
+        this.finalPrice = finalPrice;
     }
 
     public ArrayList<Bid> getBidList() {
