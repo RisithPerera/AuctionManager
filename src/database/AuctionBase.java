@@ -1,5 +1,7 @@
 package database;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import manifest.Constants;
 import model.Item;
 
@@ -14,6 +16,7 @@ public class AuctionBase {
 
     private static AuctionBase auctionBase;
     private Map<String, Item> itemMap;
+    private ObservableList<Item> itemList;
 
     //Used Singleton Design Pattern
     private AuctionBase(String filePath) {
@@ -27,7 +30,7 @@ public class AuctionBase {
         return auctionBase;
     }
 
-    public void mapFileData(String fileName) {
+    private void mapFileData(String fileName) {
         try {
             //Check the file existence
             File file = new File(fileName);
@@ -49,10 +52,11 @@ public class AuctionBase {
 
                     // Map reference initialized by HashMap
                     itemMap = new HashMap<String, Item>();
+                    Item item;
                     while ((line = bufferedReader.readLine()) != null) {
                         //Divide the string at the commas
                         String[] parts = line.split(",");
-                        Item item = new Item(parts[1], Double.parseDouble(parts[2]));
+                        item = new Item(parts[0],parts[1], Double.parseDouble(parts[2]));
                         itemMap.put(parts[0], item);
                     }
                 } else {
@@ -74,6 +78,14 @@ public class AuctionBase {
     //public getter for map items
     public Item getItem(String key) {
         return itemMap.get(key);
+    }
+
+    public ObservableList<Item> getAllItems() {
+        itemList = FXCollections.observableArrayList();
+        for (String key: Constants.SECURITY_LIST) {
+            itemList.add(itemMap.get(key));
+        }
+        return itemList;
     }
 
     public void printMap() {

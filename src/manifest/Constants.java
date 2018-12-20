@@ -20,4 +20,6 @@ public interface Constants {
     public static final String CURRENT_PRICE_MSG = "Current Price: ";
     public static final String ENTER_PRICE_MSG   = "Enter your price: ";
 
+    public static final String[] SECURITY_LIST = {"FB", "VRTU", "MSFT", "GOOGL", "YHOO", "XLNX", "TSLA", "TXN"};
+
 }

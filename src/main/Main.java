@@ -17,8 +17,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         AuctionBase auctionBase = AuctionBase.getDataBase();
-        auctionBase.printMap();
-
+        //auctionBase.printMap();
         AuctionServer auctionServer = new AuctionServer(Constants.BASE_PORT);
         auctionServer.start();
         launch(args);

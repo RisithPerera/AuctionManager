@@ -25,7 +25,6 @@ public class AuctionClientWorker implements Runnable{
 
     @Override
     public void run() {
-
         try {
             reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             writer = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
@@ -58,6 +57,8 @@ public class AuctionClientWorker implements Runnable{
                     case Constants.PRICE_STATE:
                         selectedItem.setFinalPrice(Double.parseDouble(inputLine));
                         selectedItem.getBidList().add(new Bid(clientName,"22:12:08",Double.parseDouble(inputLine)));
+                        clientState = Constants.SYMBOL_STATE;
+                        break;
                     default:
                         System.out.println("Undefined state");
                         return;
