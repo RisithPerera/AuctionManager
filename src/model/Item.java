@@ -1,18 +1,18 @@
 package model;
 
-import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Item {
     private String symbol;
     private String securityName;
-    private double finalPrice;
-    private ArrayList<Bid> bidList;
+    private ObservableList<Bid> bidList;
 
     public Item(String symbol, String securityName, double finalPrice) {
         this.symbol = symbol;
         this.securityName = securityName;
-        this.finalPrice = finalPrice;
-        this.bidList = new ArrayList<>();
+        this.bidList = FXCollections.observableArrayList();
+        bidList.add(new Bid("Initial Price","Start", finalPrice));
     }
 
     public String getSymbol() {
@@ -32,19 +32,14 @@ public class Item {
     }
 
     public double getFinalPrice() {
-        return finalPrice;
+        return bidList.get(bidList.size()-1).getPrice();
     }
 
     public void setFinalPrice(double finalPrice) {
-        this.finalPrice = finalPrice;
+        this.bidList.get(bidList.size()-1).setPrice(finalPrice);
     }
 
-    public ArrayList<Bid> getBidList() {
+    public ObservableList<Bid> getBidList() {
         return bidList;
-    }
-
-    @Override
-    public String toString() {
-        return finalPrice+" : "+securityName;
     }
 }

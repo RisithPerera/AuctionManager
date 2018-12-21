@@ -87,10 +87,4 @@ public class AuctionBase {
         }
         return itemList;
     }
-
-    public void printMap() {
-        for (Map.Entry<String, Item> entry : itemMap.entrySet()) {
-            System.out.println(entry.getKey() + " - " + entry.getValue());
-        }
-    }
 }

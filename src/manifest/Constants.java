@@ -22,4 +22,6 @@ public interface Constants {
 
     public static final String[] SECURITY_LIST = {"FB", "VRTU", "MSFT", "GOOGL", "YHOO", "XLNX", "TSLA", "TXN"};
 
+    //User Interface Constrains
+    public static final int SPACE = 5;
 }

@@ -7,6 +7,8 @@ import model.Item;
 
 import java.io.*;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AuctionClientWorker implements Runnable{
 
@@ -55,8 +57,9 @@ public class AuctionClientWorker implements Runnable{
                         }
                         break;
                     case Constants.PRICE_STATE:
-                        selectedItem.setFinalPrice(Double.parseDouble(inputLine));
-                        selectedItem.getBidList().add(new Bid(clientName,"22:12:08",Double.parseDouble(inputLine)));
+                        String bidTime = new SimpleDateFormat("hh:mm:ss").format(new Date());
+                        selectedItem.getBidList().add(new Bid(clientName,bidTime,Double.parseDouble(inputLine)));
+                        writer.print(Constants.SYMBOL_STATE_MSG);
                         clientState = Constants.SYMBOL_STATE;
                         break;
                     default:

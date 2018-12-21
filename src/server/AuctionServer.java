@@ -11,7 +11,7 @@ public class AuctionServer extends Thread {
     public AuctionServer(int port) {
         try {
             serverSocket = new ServerSocket(port);
-            serverSocket.setSoTimeout(300000);   // 5 min
+            //serverSocket.setSoTimeout(300000);   // 5 min
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -26,7 +26,7 @@ public class AuctionServer extends Thread {
                 Thread clientWorker = new Thread(new AuctionClientWorker(client));
                 clientWorker.start();
             } catch (SocketTimeoutException s) {
-                System.out.println("Socket timed out!");
+                System.out.println("Server timed out!");
                 break;
             } catch (IOException e) {
                 e.printStackTrace();

@@ -1,0 +1,10 @@
+
+
+/* Table View */
+.table-row-cell {
+    -fx-cell-size: 30px;
+}
+
+.table-view .table-cell{
+    -fx-font-size: 14px;
+}
