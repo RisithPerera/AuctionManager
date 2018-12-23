@@ -57,8 +57,7 @@ public class AuctionScene extends Scene {
         bidChart.setStyle( "-fx-background-color: #FFFFFF;");
         final XYChart.Series<String, Number> dataSeries = new XYChart.Series<>();
         bidChart.setTitle("Item Price Monitoring");
-        bidChart.getXAxis().setLabel(null);
-        dataSeries.setName(null);
+        bidChart.setLegendVisible(false);
         bidChart.getData().addAll(dataSeries);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
@@ -71,7 +70,7 @@ public class AuctionScene extends Scene {
 
         symbolCol.setCellValueFactory(new PropertyValueFactory<>("symbol"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("securityName"));
-        priceCol.setCellValueFactory(new PropertyValueFactory<>("finalPrice"));
+        priceCol.setCellValueFactory(new PropertyValueFactory<>("currentPrice"));
 
         clientCol.setCellValueFactory(new PropertyValueFactory<>("client"));
         timeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
@@ -120,6 +119,9 @@ public class AuctionScene extends Scene {
                 selectedItem = newSelection;
                 bidTable.setItems(selectedItem.getBidList());
                 bidChart.setTitle(selectedItem.getSymbol()+" Price Monitoring");
+            }
+
+            if(newSelection != null){
                 dataSeries.getData().clear();
                 for (Bid bid : selectedItem.getBidList()) {
                     dataSeries.getData().add(new XYChart.Data(bid.getTime(),bid.getPrice()));
@@ -129,6 +131,7 @@ public class AuctionScene extends Scene {
 
         timer = new Timeline(new KeyFrame(Duration.millis(500), (ActionEvent event) -> {
             itemTable.refresh();
+
         }));
 
         timer.setCycleCount(Timeline.INDEFINITE);

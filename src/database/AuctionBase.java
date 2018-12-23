@@ -85,6 +85,7 @@ public class AuctionBase {
         for (String key: Constants.SECURITY_LIST) {
             itemList.add(itemMap.get(key));
         }
+
         return itemList;
     }
 }

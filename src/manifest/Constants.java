@@ -15,10 +15,10 @@ public interface Constants {
 
     //Client States Messages
     public static final String LOGIN_STATE_MSG   = "Enter your name: ";
-    public static final String AUTH_DONE_MSG = "You are authorised to bid\n";
     public static final String SYMBOL_STATE_MSG  = "Provide the symbol: ";
     public static final String CURRENT_PRICE_MSG = "Current Price: ";
     public static final String ENTER_PRICE_MSG   = "Enter your price: ";
+    public static final String WRONG_PRICE_MSG   = "Invalid Price";
 
     public static final String[] SECURITY_LIST = {"FB", "VRTU", "MSFT", "GOOGL", "YHOO", "XLNX", "TSLA", "TXN"};
 

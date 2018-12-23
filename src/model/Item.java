@@ -31,15 +31,15 @@ public class Item {
         this.securityName = securityName;
     }
 
-    public double getFinalPrice() {
+    public double getCurrentPrice() {
         return bidList.get(bidList.size()-1).getPrice();
     }
 
-    public void setFinalPrice(double finalPrice) {
-        this.bidList.get(bidList.size()-1).setPrice(finalPrice);
-    }
-
-    public ObservableList<Bid> getBidList() {
-        return bidList;
+    public boolean setCurrentPrice(String clientName, String bidTime, double newPrice) {
+        if(newPrice > this.getCurrentPrice()) {
+            this.bidList.add(new Bid(clientName, bidTime, newPrice));
+            return true;
+        }
+        return false;
     }
 }

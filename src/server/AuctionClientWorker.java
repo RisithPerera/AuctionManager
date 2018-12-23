@@ -51,16 +51,21 @@ public class AuctionClientWorker implements Runnable{
                             writer.println(Integer.toString(-1));
                             writer.print(Constants.SYMBOL_STATE_MSG);
                         }else{
-                            writer.println(Constants.CURRENT_PRICE_MSG + Double.toString(selectedItem.getFinalPrice()));
+                            writer.println(Constants.CURRENT_PRICE_MSG + Double.toString(selectedItem.getCurrentPrice()));
                             writer.print(Constants.ENTER_PRICE_MSG);
                             clientState = Constants.PRICE_STATE;
                         }
                         break;
                     case Constants.PRICE_STATE:
                         String bidTime = new SimpleDateFormat("hh:mm:ss").format(new Date());
-                        selectedItem.getBidList().add(new Bid(clientName,bidTime,Double.parseDouble(inputLine)));
-                        writer.print(Constants.SYMBOL_STATE_MSG);
-                        clientState = Constants.SYMBOL_STATE;
+                        double newPrice = Double.parseDouble(inputLine);
+                        if(selectedItem.setCurrentPrice(clientName,bidTime,newPrice)) {
+                            writer.print(Constants.SYMBOL_STATE_MSG);
+                            clientState = Constants.SYMBOL_STATE;
+                        }else{
+                            writer.println(Constants.WRONG_PRICE_MSG);
+                            writer.print(Constants.ENTER_PRICE_MSG);
+                        }
                         break;
                     default:
                         System.out.println("Undefined state");
