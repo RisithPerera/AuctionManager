@@ -1,7 +1,5 @@
 package server;
 
-
-// File Name GreetingServer.java
 import java.net.*;
 import java.io.*;
 
@@ -19,6 +17,7 @@ public class AuctionServer extends Thread {
 
     @Override
     public void run() {
+        //Waiting for client on given port
         while(true) {
             try {
                 System.out.println("Waiting for client on port " + serverSocket.getLocalPort() + "...");

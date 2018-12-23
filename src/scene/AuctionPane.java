@@ -22,47 +22,38 @@ import manifest.Constants;
 import model.Bid;
 import model.Item;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+public class AuctionPane extends HBox {
 
-public class AuctionScene extends Scene {
-    private static HBox root;
-    int noOfBids = 0;
 
     private TableView<Item> itemTable;
     private TableView<Bid>  bidTable;
     private ObservableList<Item> data;
     private TableColumn symbolCol,nameCol,priceCol;
     private TableColumn clientCol,timeCol,bidPriceCol;
-    private Item selectedItem;
-
+    private LineChart<String, Number> bidChart;
+    private XYChart.Series<String, Number> dataSeries;
     private Timeline timer;
+    private VBox detailVBox;
 
-    static {
-        root = new HBox();
-    }
+    private Item selectedItem;
+    private int noOfBids = 0;
 
-    public AuctionScene() {
-        super(root);
-
+    public AuctionPane() {
         itemTable = new TableView<>();
         data = AuctionBase.getDataBase().getFilteredItems();
         symbolCol = new TableColumn("Symbol");
         nameCol = new TableColumn("Company Name");
         priceCol = new TableColumn("Current Price");
 
-        VBox detailVBox = new VBox();
+        detailVBox = new VBox();
 
-        LineChart<String, Number> bidChart = new LineChart<>(new CategoryAxis(), new NumberAxis());
-        XYChart.Series<String, Number> dataSeries = new XYChart.Series<>();
+        bidChart = new LineChart<>(new CategoryAxis(), new NumberAxis());
+        dataSeries = new XYChart.Series<>();
 
         bidChart.setStyle( "-fx-background-color: #FFFFFF;");
         bidChart.setTitle("Item Price Monitoring");
         bidChart.setLegendVisible(false);
         bidChart.getData().addAll(dataSeries);
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-        Date date = new Date();
 
         bidTable = new TableView<>();
         clientCol = new TableColumn("Client Name");
@@ -108,14 +99,7 @@ public class AuctionScene extends Scene {
         HBox.setHgrow(detailVBox,Priority.ALWAYS);
         detailVBox.setSpacing(Constants.SPACE);
 
-        root.getChildren().addAll(itemTable,detailVBox);
-        root.setSpacing(Constants.SPACE);
-        root.setPrefWidth(800);
-        root.setPrefHeight(600);
-        root.setStyle( "-fx-background-color: #3b224b;");
-        root.setPadding(new Insets(Constants.SPACE,Constants.SPACE,Constants.SPACE,Constants.SPACE));
-
-
+        //Add event listener for each row
         itemTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null && newSelection != oldSelection) {
                 selectedItem = newSelection;
@@ -144,6 +128,12 @@ public class AuctionScene extends Scene {
         timer.setCycleCount(Timeline.INDEFINITE);
         timer.play();
 
-        this.getStylesheets().add("style/style.css");
+        this.getChildren().addAll(itemTable,detailVBox);
+        this.setSpacing(Constants.SPACE);
+        this.setPrefWidth(800);
+        this.setPrefHeight(600);
+        this.setStyle( "-fx-background-color: #3b224b;");
+        this.setPadding(new Insets(Constants.SPACE,Constants.SPACE,Constants.SPACE,Constants.SPACE));
+        this.getStylesheets().add(Constants.STYLE_PATH);
     }
 }

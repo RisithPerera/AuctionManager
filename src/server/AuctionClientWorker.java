@@ -2,7 +2,6 @@ package server;
 
 import database.AuctionBase;
 import manifest.Constants;
-import model.Bid;
 import model.Item;
 
 import java.io.*;
@@ -28,11 +27,11 @@ public class AuctionClientWorker implements Runnable{
     @Override
     public void run() {
         try {
+
             reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             writer = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
 
-            String outputLine = Constants.LOGIN_STATE_MSG;
-            writer.print(outputLine);
+            writer.print(Constants.LOGIN_STATE_MSG);
             writer.flush();
 
             String inputLine = reader.readLine();

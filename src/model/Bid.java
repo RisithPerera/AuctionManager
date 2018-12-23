@@ -3,6 +3,10 @@ package model;
 import java.util.ArrayList;
 
 public class Bid {
+    /*
+        Bid object model keeps a single price update for a specific
+        item.
+     */
     private String client;
     private String time;
     private double price;

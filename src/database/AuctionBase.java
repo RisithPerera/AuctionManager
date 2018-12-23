@@ -14,6 +14,9 @@ import java.util.Map;
 
 public class AuctionBase {
 
+    /*
+        This class read the given csv file and map all data into hashMap
+     */
     private static AuctionBase auctionBase;
     private Map<String, Item> itemMap;
     private ObservableList<Item> itemList;
@@ -23,7 +26,16 @@ public class AuctionBase {
         mapFileData(filePath);
     }
 
+    public static void initialize(String filePath) {
+        if (auctionBase == null) {
+            auctionBase = new AuctionBase(filePath);
+        }
+    }
+
     public static AuctionBase getDataBase() {
+        /*
+            If auctionBas is null, It will be initialize by the default filepath
+         */
         if (auctionBase == null) {
             auctionBase = new AuctionBase(Constants.STOCK_PATH);
         }
@@ -80,6 +92,8 @@ public class AuctionBase {
         return itemMap.get(key);
     }
 
+    //Every Bids are kept inside a Observable List.
+    //Observablelist is a list that allows listeners to track changes when they occur.
     public ObservableList<Item> getFilteredItems() {
         itemList = FXCollections.observableArrayList();
         for (String key: Constants.SECURITY_LIST) {

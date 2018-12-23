@@ -4,6 +4,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Item {
+    /*
+        Item object model keeps details and all the price updates as a list for a
+        specific Item.
+     */
     private String symbol;
     private String securityName;
     private ObservableList<Bid> bidList;
