@@ -44,6 +44,7 @@ public class AuctionClientWorker implements Runnable{
                         writer.print(Constants.SYMBOL_STATE_MSG);
                         clientState = Constants.SYMBOL_STATE;
                         break;
+
                     case Constants.SYMBOL_STATE:
                         selectedItem = AuctionBase.getDataBase().getItem(inputLine);
                         //mainServer.postMSG(this.clientName + " Says: " + line);
@@ -51,35 +52,47 @@ public class AuctionClientWorker implements Runnable{
                             writer.println(Integer.toString(-1));
                             writer.print(Constants.SYMBOL_STATE_MSG);
                         }else{
-                            writer.println(Constants.CURRENT_PRICE_MSG + Double.toString(selectedItem.getCurrentPrice()));
+                            writer.println(Constants.CURRENT_PRICE_MSG + selectedItem.getCurrentPrice());
                             writer.print(Constants.ENTER_PRICE_MSG);
                             clientState = Constants.PRICE_STATE;
                         }
                         break;
+
                     case Constants.PRICE_STATE:
-                        String bidTime = new SimpleDateFormat("hh:mm:ss").format(new Date());
-                        double newPrice = Double.parseDouble(inputLine);
-                        if(selectedItem.setCurrentPrice(clientName,bidTime,newPrice)) {
-                            writer.print(Constants.SYMBOL_STATE_MSG);
-                            clientState = Constants.SYMBOL_STATE;
-                        }else{
+                        try{
+                            String bidTime = new SimpleDateFormat("hh:mm:ss").format(new Date());
+                            double newPrice = Double.parseDouble(inputLine);
+                            if(selectedItem.setCurrentPrice(clientName,bidTime,newPrice)) {
+                                writer.println(Constants.SUCCESS_PRICE_MSG);
+                                writer.print(Constants.SYMBOL_STATE_MSG);
+                                clientState = Constants.SYMBOL_STATE;
+                            }else{
+                                writer.println(Constants.WRONG_PRICE_MSG);
+                                writer.print(Constants.ENTER_PRICE_MSG);
+                            }
+                        }catch (NumberFormatException e){
                             writer.println(Constants.WRONG_PRICE_MSG);
                             writer.print(Constants.ENTER_PRICE_MSG);
+                            clientState = Constants.PRICE_STATE;
                         }
                         break;
+
                     default:
                         System.out.println("Undefined state");
                         return;
                 }
-                writer.flush(); // flush to network
+
+                // flush to the client
+                writer.flush();
                 inputLine = reader.readLine();
             }
+
             // close everything
             writer.close();
             reader.close();
             clientSocket.close();
-        }
-        catch (IOException e) {
+
+        } catch (IOException e) {
             System.out.println(e);
         }
     }

@@ -80,12 +80,11 @@ public class AuctionBase {
         return itemMap.get(key);
     }
 
-    public ObservableList<Item> getAllItems() {
+    public ObservableList<Item> getFilteredItems() {
         itemList = FXCollections.observableArrayList();
         for (String key: Constants.SECURITY_LIST) {
             itemList.add(itemMap.get(key));
         }
-
         return itemList;
     }
 }

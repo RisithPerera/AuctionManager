@@ -27,6 +27,7 @@ import java.util.Date;
 
 public class AuctionScene extends Scene {
     private static HBox root;
+    int noOfBids = 0;
 
     private TableView<Item> itemTable;
     private TableView<Bid>  bidTable;
@@ -45,7 +46,7 @@ public class AuctionScene extends Scene {
         super(root);
 
         itemTable = new TableView<>();
-        data = AuctionBase.getDataBase().getAllItems();
+        data = AuctionBase.getDataBase().getFilteredItems();
         symbolCol = new TableColumn("Symbol");
         nameCol = new TableColumn("Company Name");
         priceCol = new TableColumn("Current Price");
@@ -53,9 +54,9 @@ public class AuctionScene extends Scene {
         VBox detailVBox = new VBox();
 
         LineChart<String, Number> bidChart = new LineChart<>(new CategoryAxis(), new NumberAxis());
+        XYChart.Series<String, Number> dataSeries = new XYChart.Series<>();
 
         bidChart.setStyle( "-fx-background-color: #FFFFFF;");
-        final XYChart.Series<String, Number> dataSeries = new XYChart.Series<>();
         bidChart.setTitle("Item Price Monitoring");
         bidChart.setLegendVisible(false);
         bidChart.getData().addAll(dataSeries);
@@ -114,24 +115,30 @@ public class AuctionScene extends Scene {
         root.setStyle( "-fx-background-color: #3b224b;");
         root.setPadding(new Insets(Constants.SPACE,Constants.SPACE,Constants.SPACE,Constants.SPACE));
 
+
         itemTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null && newSelection != oldSelection) {
                 selectedItem = newSelection;
                 bidTable.setItems(selectedItem.getBidList());
                 bidChart.setTitle(selectedItem.getSymbol()+" Price Monitoring");
-            }
 
-            if(newSelection != null){
                 dataSeries.getData().clear();
+                noOfBids = selectedItem.getBidList().size();
                 for (Bid bid : selectedItem.getBidList()) {
                     dataSeries.getData().add(new XYChart.Data(bid.getTime(),bid.getPrice()));
                 }
             }
         });
 
+        //Update user interface every 500ms
         timer = new Timeline(new KeyFrame(Duration.millis(500), (ActionEvent event) -> {
             itemTable.refresh();
-
+            if(selectedItem != null && selectedItem.getBidList().size() > noOfBids){
+                for(Bid bid : selectedItem.getBidList().subList(noOfBids,selectedItem.getBidList().size())) {
+                    dataSeries.getData().add(new XYChart.Data(bid.getTime(), bid.getPrice()));
+                }
+                noOfBids = selectedItem.getBidList().size();
+            }
         }));
 
         timer.setCycleCount(Timeline.INDEFINITE);

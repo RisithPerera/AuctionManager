@@ -35,11 +35,15 @@ public class Item {
         return bidList.get(bidList.size()-1).getPrice();
     }
 
-    public boolean setCurrentPrice(String clientName, String bidTime, double newPrice) {
+    public synchronized boolean setCurrentPrice(String clientName, String bidTime, double newPrice) {
         if(newPrice > this.getCurrentPrice()) {
             this.bidList.add(new Bid(clientName, bidTime, newPrice));
             return true;
         }
         return false;
+    }
+
+    public ObservableList<Bid> getBidList() {
+        return bidList;
     }
 }
